@@ -1,1 +1,1 @@
-## Raster Based Graphisc Pipeline
+## Raster Based Graphics Pipeline
