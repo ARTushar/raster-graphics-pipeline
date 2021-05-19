@@ -10,7 +10,7 @@ Transformation::Transformation() {
 
 }
 
-Matrix Transformation::get_scale_matrix(const double &sx, const double &sy, const double &sz) {}(const double &sx, const double &sy, const double &sz) {
+Matrix Transformation::get_scale_matrix(const double &sx, const double &sy, const double &sz) {
     Matrix scale_matrix;
     scale_matrix.set_diagonals(sx, sy, sz);
     return scale_matrix;
@@ -30,8 +30,8 @@ Matrix Transformation::get_rotate_matrix(const double &rotation_angle, const Poi
     Point c3 = apply_rodrigues_formula({0, 0, 1}, rotation_angle, normalized_vector);
     Matrix result;
     result.set_lmc(c1.x, c1.y, c1.z);
-    result.set_mc(c2.x, c2.y, c2.z);
-    result.set_rmc(c3.x, c3.y, c3.z);
+    result.set_mlc(c2.x, c2.y, c2.z);
+    result.set_mrc(c3.x, c3.y, c3.z);
     return result;
 }
 
@@ -41,5 +41,29 @@ Point Transformation::apply_rodrigues_formula(const Point &axis, const double &r
     Point result = axis * cos_theta +
                    rotating_vector * ((1 - cos_theta) * (rotating_vector.dot(axis))) +
                    rotating_vector.cross(axis) * sin_theta;
+    return result;
+}
+
+Matrix Transformation::get_view_rotate_matrix(const Point &r, const Point &u, const Point &l) {
+    Matrix result;
+    result.set_lmc(r.x, u.x, -l.x);
+    result.set_mlc(r.y, u.y, -l.y);
+    result.set_mrc(r.z, u.z, -l.z);
+    return result;
+}
+
+Matrix Transformation::get_view_translate_matrix(const Point &eye) {
+    Matrix result;
+    result.set_diagonals(1, 1, 1);
+    result.set_rmc(-eye.x, -eye.y, -eye.z);
+    return result;
+}
+
+Matrix Transformation::get_projection_matrix(const double &near, const double &far, const double &r, const double &t) {
+    Matrix result;
+    result.matrix[3][2] = -1;
+    result.matrix[3][3] = 0;
+    result.matrix[2][3] = -(2 * far * near) / (far - near);
+    result.set_diagonals(near/r, near/t, -(far+near)/(far-near));
     return result;
 }
