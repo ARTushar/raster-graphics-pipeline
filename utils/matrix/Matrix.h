@@ -10,9 +10,11 @@
 
 class Matrix {
 private:
-    const int row;
-    const int col;
+    void write_vector(std::ofstream &output);
+    void write_matrix(std::ofstream &output);
 public:
+    int row;
+    int col;
     double matrix[4][4];
 
     Matrix();
@@ -26,7 +28,9 @@ public:
     void set_mrc(const double &dx, const double &dy, const double &dz);
     void set_lmc(const double &dx, const double &dy, const double &dz);
     static Matrix identity(const int &row=4, const int &col=4);
+    static Matrix combine_vectors(const Matrix& v1, const Matrix& v2, const Matrix& v3);
     void write_to_file(std::ofstream &output);
+
 };
 
 

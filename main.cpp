@@ -1,4 +1,3 @@
-#include <iostream>
 #include "pipeline/Pipeline.h"
 
 int main() {

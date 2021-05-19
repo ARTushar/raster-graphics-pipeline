@@ -104,13 +104,8 @@ Matrix Matrix::identity(const int &row, const int &col) {
 }
 
 void Matrix::write_to_file(std::ofstream &output) {
-    for(int i = 0; i < row-1; i++) {
-        for(int j = 0; j < col-1 || j == 0; j++) {
-            output << matrix[i][j] << " ";
-        }
-        output << std::endl;
-    }
-    output << std::endl;
+    if(col == 1) write_vector(output);
+    else write_matrix(output);
 }
 
 Matrix::Matrix(const Point &point): row{4}, col{1} {
@@ -119,3 +114,34 @@ Matrix::Matrix(const Point &point): row{4}, col{1} {
     matrix[2][0] = point.z;
     matrix[3][0] = 1;
 }
+
+void Matrix::write_vector(std::ofstream &output) {
+    for(int i = 0; i < row-1; i++) {
+        output << matrix[i][0];
+        if(i != row-2) output << " ";
+    }
+    output << std::endl;
+}
+
+void Matrix::write_matrix(std::ofstream &output) {
+    for(int i = 0; i < row-1; i++) {
+        for(int j = 0; j < col-1; j++) {
+            output << matrix[i][j];
+            if(j != col-2) output << " ";
+        }
+        output << std::endl;
+    }
+    output << std::endl;
+}
+
+Matrix Matrix::combine_vectors(const Matrix &v1, const Matrix &v2, const Matrix &v3) {
+    if(!(v1.row == 4 && v1.col == 1 && v2.row == 4 && v2.col == 1 && v3.row == 4 && v3.col == 1)) {
+        std::cout << "Invalid matrix formation from vectors" << std::endl;
+        return Matrix();
+    }
+    Matrix result;
+    result.set_lmc(v1.matrix[0][0], v1.matrix[1][0], v1.matrix[2][0]);
+    result.set_mlc(v2.matrix[0][0], v2.matrix[1][0], v2.matrix[2][0]);
+    result.set_mrc(v3.matrix[0][0], v3.matrix[1][0], v3.matrix[2][0]);
+}
+

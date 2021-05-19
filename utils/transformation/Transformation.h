@@ -10,12 +10,12 @@
 
 class Transformation {
 private:
-    static Point apply_rodrigues_formula(const Point &axis, const double &rotation_angle, const Point &rotating_vector);
+    static Point apply_rodrigues_formula(const Point &rotating_vector, const Point &axis, const double &rotation_angle);
 public:
     Transformation();
     static Matrix get_scale_matrix(const double &sx, const double &sy, const double &sz);
     static Matrix get_translate_matrix(const double &tx, const double &ty, const double &tz);
-    static Matrix get_rotate_matrix(const double &rotation_angle, const Point &rotating_vector);
+    static Matrix get_rotate_matrix(const double &rotation_angle, const Point &rotation_axis);
     static Matrix get_view_translate_matrix(const Point &eye);
     static Matrix get_view_rotate_matrix(const Point &r, const Point &u, const Point &l);
     static Matrix get_projection_matrix(const double &near, const double &far, const double &r, const double &t);
