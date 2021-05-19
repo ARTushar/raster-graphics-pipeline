@@ -25,9 +25,6 @@ vector<Matrix> Model::parse_triangle(const Point &point1, const Point &point2, c
     Matrix res3 = transform_point(point3);
     output << endl;
     vector<Matrix> list;
-//    cout << "1: " << res1.row << " " << res1.col << endl;
-//    cout << "2: " << res2.row << " " << res2.col << endl;
-//    cout << "3: " << res3.row << " " << res3.col << endl;
     list.push_back(res1);
     list.push_back(res2);
     list.push_back(res3);

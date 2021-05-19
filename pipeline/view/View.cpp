@@ -11,6 +11,7 @@ using namespace std;
 Matrix View::apply_view_transformation(const Matrix &m) {
     Matrix result = view_matrix.mul(m);
     result.write_to_file(output_file);
+    result.normalize();
     return result;
 }
 

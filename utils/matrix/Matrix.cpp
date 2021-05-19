@@ -5,6 +5,8 @@
 #include <iostream>
 #include "Matrix.h"
 
+using namespace std;
+
 Matrix::Matrix() : row {4}, col{4}, matrix { {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 1}} {
 }
 
@@ -19,7 +21,7 @@ Matrix::Matrix(const int &row, const int &col): row {row}, col {col} {
 
 Matrix Matrix::mul(const Matrix &m) {
     if (col != m.row) {
-        std::cout << "Invalid mul" << std::endl;
+        cout << "Invalid mul" << endl;
         return Matrix();
     }
 
@@ -38,7 +40,7 @@ Matrix Matrix::mul(const Matrix &m) {
 
 Matrix Matrix::add(const Matrix &m) {
     if(row != m.row || col != m.col) {
-        std::cout << "Invalid add" << std::endl;
+        cout << "Invalid add" << endl;
         return Matrix();
     }
 
@@ -54,7 +56,7 @@ Matrix Matrix::add(const Matrix &m) {
 
 void Matrix::set_diagonals(const double &dx, const double &dy, const double &dz) {
     if(row != 4 || col != 4) {
-        std::cout << "invalid set diagonals" << std::endl;
+        cout << "invalid set diagonals" << endl;
     }
     matrix[0][0] = dx;
     matrix[1][1] = dy;
@@ -63,7 +65,7 @@ void Matrix::set_diagonals(const double &dx, const double &dy, const double &dz)
 
 void Matrix::set_rmc(const double &dx, const double &dy, const double &dz) {
     if(row != 4 || col != 4) {
-        std::cout << "invalid set rmc" << std::endl;
+        cout << "invalid set rmc" << endl;
     }
     matrix[0][col-1] = dx;
     matrix[1][col-1] = dy;
@@ -72,7 +74,7 @@ void Matrix::set_rmc(const double &dx, const double &dy, const double &dz) {
 
 void Matrix::set_mlc(const double &dx, const double &dy, const double &dz) {
     if(row != 4 || col != 4) {
-        std::cout << "invalid set mlc" << std::endl;
+        cout << "invalid set mlc" << endl;
     }
     matrix[0][1] = dx;
     matrix[1][1] = dy;
@@ -81,7 +83,7 @@ void Matrix::set_mlc(const double &dx, const double &dy, const double &dz) {
 
 void Matrix::set_lmc(const double &dx, const double &dy, const double &dz) {
     if(row != 4 || col != 4) {
-        std::cout << "invalid set lmc" << std::endl;
+        cout << "invalid set lmc" << endl;
     }
     matrix[0][0] = dx;
     matrix[1][0] = dy;
@@ -90,7 +92,7 @@ void Matrix::set_lmc(const double &dx, const double &dy, const double &dz) {
 
 void Matrix::set_mrc(const double &dx, const double &dy, const double &dz) {
     if(row != 4 || col != 4) {
-        std::cout << "invalid set mrc" << std::endl;
+        cout << "invalid set mrc" << endl;
     }
     matrix[0][2] = dx;
     matrix[1][2] = dy;
@@ -103,7 +105,7 @@ Matrix Matrix::identity(const int &row, const int &col) {
     return iden;
 }
 
-void Matrix::write_to_file(std::ofstream &output) {
+void Matrix::write_to_file(ofstream &output) {
     if(col == 1) write_vector(output);
     else write_matrix(output);
 }
@@ -115,33 +117,50 @@ Matrix::Matrix(const Point &point): row{4}, col{1} {
     matrix[3][0] = 1;
 }
 
-void Matrix::write_vector(std::ofstream &output) {
+void Matrix::write_vector(ofstream &output) {
     for(int i = 0; i < row-1; i++) {
         output << matrix[i][0];
         if(i != row-2) output << " ";
     }
-    output << std::endl;
+    output << endl;
 }
 
-void Matrix::write_matrix(std::ofstream &output) {
+void Matrix::write_matrix(ofstream &output) {
     for(int i = 0; i < row-1; i++) {
         for(int j = 0; j < col-1; j++) {
             output << matrix[i][j];
             if(j != col-2) output << " ";
         }
-        output << std::endl;
+        output << endl;
     }
-    output << std::endl;
+    output << endl;
 }
 
 Matrix Matrix::combine_vectors(const Matrix &v1, const Matrix &v2, const Matrix &v3) {
     if(!(v1.row == 4 && v1.col == 1 && v2.row == 4 && v2.col == 1 && v3.row == 4 && v3.col == 1)) {
-        std::cout << "Invalid matrix formation from vectors" << std::endl;
+        cout << "Invalid matrix formation from vectors" << endl;
         return Matrix();
     }
     Matrix result;
     result.set_lmc(v1.matrix[0][0], v1.matrix[1][0], v1.matrix[2][0]);
     result.set_mlc(v2.matrix[0][0], v2.matrix[1][0], v2.matrix[2][0]);
     result.set_mrc(v3.matrix[0][0], v3.matrix[1][0], v3.matrix[2][0]);
+}
+
+void Matrix::normalize() {
+    if(!(row == 4 && col == 1)){
+        return;
+    }
+
+    if(matrix[3][0] != 1)  {
+        auto scale = matrix[3][0];
+        if(scale == 0) {
+            cout << "w is zero!!" << endl;
+            return;
+        }
+        for(int i = 0; i < row; i++) {
+            matrix[i][0] /= scale;
+        }
+    }
 }
 

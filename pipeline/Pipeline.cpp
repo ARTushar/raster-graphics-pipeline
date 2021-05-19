@@ -11,6 +11,7 @@ Pipeline::Pipeline() {
     input_file_name = "input/scene.txt";
     input_file.open(input_file_name);
     parse_view_input();
+    parse_projection_input();
 }
 
 void Pipeline::parse_input_file() {
@@ -59,8 +60,10 @@ void Pipeline::parse_triangle() {
     vector<Matrix> list =  model.parse_triangle({p1x, p1y, p1z}, {p2x, p2y, p2z}, {p3x, p3y, p3z});
     for(auto &m: list) {
         Matrix vm = view.apply_view_transformation(m);
+        projection.apply_projection(vm);
     }
     view.write_nl();
+    projection.write_nl();
 }
 
 void Pipeline::parse_translate() {
@@ -93,4 +96,10 @@ void Pipeline::parse_view_input() {
     double ex, ey, ez, lx, ly, lz, ux, uy, uz;
     input_file >> ex >> ey >> ez >> lx >> ly >> lz >> ux >> uy >> uz;
     view.set_view_matrix({ex, ey, ez}, {lx, ly, lz}, {ux, uy, uz});
+}
+
+void Pipeline::parse_projection_input() {
+    double fov_y, ratio, near, far;
+    input_file >> fov_y >> ratio >> near >> far;
+    projection.set_projection_attributes(fov_y, ratio, near, far);
 }

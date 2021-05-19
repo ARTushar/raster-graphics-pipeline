@@ -30,7 +30,7 @@ public:
     static Matrix identity(const int &row=4, const int &col=4);
     static Matrix combine_vectors(const Matrix& v1, const Matrix& v2, const Matrix& v3);
     void write_to_file(std::ofstream &output);
-
+    void normalize();
 };
 
 

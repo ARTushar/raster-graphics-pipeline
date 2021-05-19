@@ -31,6 +31,7 @@ public:
     Pipeline();
     virtual ~Pipeline();
     void parse_input_file();
+    void parse_projection_input();
 };
 
 
