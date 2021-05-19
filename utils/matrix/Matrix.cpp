@@ -52,7 +52,7 @@ Matrix Matrix::add(const Matrix &m) {
     return result;
 }
 
-Matrix Matrix::set_diagonals(const double &dx, const double &dy, const double &dz) {
+void Matrix::set_diagonals(const double &dx, const double &dy, const double &dz) {
     if(row != 4 || col != 4) {
         std::cout << "invalid set diagonals" << std::endl;
     }
@@ -61,7 +61,7 @@ Matrix Matrix::set_diagonals(const double &dx, const double &dy, const double &d
     matrix[2][2] = dz;
 }
 
-Matrix Matrix::set_rmc(const double &dx, const double &dy, const double &dz) {
+void Matrix::set_rmc(const double &dx, const double &dy, const double &dz) {
     if(row != 4 || col != 4) {
         std::cout << "invalid set rmc" << std::endl;
     }
@@ -70,7 +70,7 @@ Matrix Matrix::set_rmc(const double &dx, const double &dy, const double &dz) {
     matrix[2][col-1] = dz;
 }
 
-Matrix Matrix::set_mlc(const double &dx, const double &dy, const double &dz) {
+void Matrix::set_mlc(const double &dx, const double &dy, const double &dz) {
     if(row != 4 || col != 4) {
         std::cout << "invalid set mlc" << std::endl;
     }
@@ -79,7 +79,7 @@ Matrix Matrix::set_mlc(const double &dx, const double &dy, const double &dz) {
     matrix[2][1] = dz;
 }
 
-Matrix Matrix::set_lmc(const double &dx, const double &dy, const double &dz) {
+void Matrix::set_lmc(const double &dx, const double &dy, const double &dz) {
     if(row != 4 || col != 4) {
         std::cout << "invalid set lmc" << std::endl;
     }
@@ -88,11 +88,34 @@ Matrix Matrix::set_lmc(const double &dx, const double &dy, const double &dz) {
     matrix[2][0] = dz;
 }
 
-Matrix Matrix::set_mrc(const double &dx, const double &dy, const double &dz) {
+void Matrix::set_mrc(const double &dx, const double &dy, const double &dz) {
     if(row != 4 || col != 4) {
         std::cout << "invalid set mrc" << std::endl;
     }
     matrix[0][2] = dx;
     matrix[1][2] = dy;
     matrix[2][2] = dz;
+}
+
+Matrix Matrix::identity(const int &row, const int &col) {
+    Matrix iden(row, col);
+    iden.set_diagonals(1, 1, 1);
+    return iden;
+}
+
+void Matrix::write_to_file(std::ofstream &output) {
+    for(int i = 0; i < row-1; i++) {
+        for(int j = 0; j < col-1 || j == 0; j++) {
+            output << matrix[i][j] << " ";
+        }
+        output << std::endl;
+    }
+    output << std::endl;
+}
+
+Matrix::Matrix(const Point &point): row{4}, col{1} {
+    matrix[0][0] = point.x;
+    matrix[1][0] = point.y;
+    matrix[2][0] = point.z;
+    matrix[3][0] = 1;
 }

@@ -1,6 +1,7 @@
 #include <iostream>
+#include "pipeline/Pipeline.h"
 
 int main() {
-  std::cout << "Hello, World!" << std::endl;
-  return 0;
+    Pipeline pipeline;
+    pipeline.parse_input_file();
 }
