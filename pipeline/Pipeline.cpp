@@ -8,7 +8,7 @@
 using namespace std;
 
 Pipeline::Pipeline() {
-    input_file_name = "../test-cases/3/scene.txt";
+    input_file_name = "../test-cases/4/scene.txt";
     input_file.open(input_file_name);
     parse_view_input();
     parse_projection_input();
@@ -23,6 +23,7 @@ void Pipeline::parse_input_file() {
         if(command == END || command == INVALID) break;
         parse_command(command);
     }
+    clipping.run();
     clipping.print_z_buffer();
 }
 
@@ -59,15 +60,15 @@ void Pipeline::parse_triangle() {
     double p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z;
     input_file >> p1x >> p1y >> p1z >> p2x >> p2y >> p2z >> p3x >> p3y >> p3z;
     vector<Matrix> list =  model.parse_triangle({p1x, p1y, p1z}, {p2x, p2y, p2z}, {p3x, p3y, p3z});
-    vector<Point> points;
+//    vector<Point> points;
     for(auto &m: list) {
         Matrix vm = view.apply_view_transformation(m);
         Matrix pr = projection.apply_projection(vm);
-        points.push_back(Matrix::toPoint(pr));
+//        points.push_back(Matrix::toPoint(pr));
     }
     view.write_nl();
     projection.write_nl();
-    clipping.scan_triangle(points[0], points[1], points[2]);
+//    clipping.scan_triangle(points[0], points[1], points[2]);
 }
 
 void Pipeline::parse_translate() {

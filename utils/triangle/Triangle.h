@@ -26,7 +26,7 @@ public:
     void set_max_min_x_at_y(const double &y);
     void set_za_zb_zp(const double &y);
     void initial_scan_at_y(const double &y);
-    double get_z_at_x_y(const double &del_x, const double &y) const;
+    double get_z_at_x_y(const double &x, const double &y) const;
     static void test();
 };
 

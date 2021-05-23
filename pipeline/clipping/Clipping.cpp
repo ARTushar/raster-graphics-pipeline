@@ -7,8 +7,9 @@
 #include "Clipping.h"
 #include "../../utils/triangle/Triangle.h"
 
-Clipping::Clipping(): output_file_name("output/z-buffer.txt"), input_file_name("../test-cases/3/config.txt") {
+Clipping::Clipping(): output_file_name("output/z-buffer.txt"), input_file_name("../test-cases/4/config.txt"), input_triangles_file_name("output/stage3.txt") {
     input_file.open(input_file_name);
+    input_triangles_file.open(input_triangles_file_name);
     output_file.open(output_file_name);
     output_file << fixed;
     output_file << setprecision(6);
@@ -51,6 +52,8 @@ void Clipping::delete_buffers() const {
 }
 
 Clipping::~Clipping() {
+    input_file.close();
+    input_triangles_file.close();
     output_file.close();
     delete_buffers();
 }
@@ -66,7 +69,7 @@ void Clipping::scan_triangle(const Point &a, const Point &b, const Point &c) con
         int left_col =  ceil((max(left_x, triangle.current_x_a) - left_x) / dx);
         int right_col = floor((min(right_x, triangle.current_x_b) - left_x) / dx);
         for(auto col = left_col; col < right_col; col++) {
-            double z_value = triangle.get_z_at_x_y(col * dx, top_y - row * dy);
+            double z_value = triangle.get_z_at_x_y(left_x + col * dx, top_y - row * dy);
 //            printf("calculated z: %f at x: %f, y: %f\n", z_value, left_x - col*dx, top_y - row * dy);
             if(z_value >= front_limit && z_value < z_buffer[row][col]) {
                 z_buffer[row][col] = z_value;
@@ -86,7 +89,7 @@ void Clipping::print_z_buffer() {
         }
         output_file << endl;
     }
-    image->save_image("output/image.bmp");
+    image->save_image("output/output.bmp");
 }
 
 void Clipping::parse_input() {
@@ -94,3 +97,10 @@ void Clipping::parse_input() {
     printf("config inputs %d %d %f %f %f %f\n", screen_width, screen_height, left_limit, bottom_limit, front_limit, rear_limit);
 }
 
+void Clipping::run() {
+    double x1, y1, z1, x2, y2, z2, x3, y3, z3;
+    while(input_triangles_file >> x1 >> y1 >> z1 >> x2 >> y2 >> z2 >> x3 >> y3 >> z3) {
+        Point a{x1, y1, z1}, b{x2, y2, z2}, c{x3, y3, z3};
+        scan_triangle(a, b, c);
+    }
+}

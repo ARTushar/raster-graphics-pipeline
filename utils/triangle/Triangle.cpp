@@ -119,7 +119,8 @@ bool Triangle::y_intersects_line(const double &y, const double &y1, const double
     return  (y >= y1 && y <= y2) || (y >= y2 && y <= y1);
 }
 
-double Triangle::get_z_at_x_y(const double &del_x, const double &y) const {
+double Triangle::get_z_at_x_y(const double &x, const double &y) const {
+    double del_x = x - current_x_a;
     if(current_x_b == current_x_a) return current_z_p;
     return current_z_p + del_x * (current_z_b - current_z_a) / (current_x_b - current_x_a);
 }

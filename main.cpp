@@ -1,5 +1,4 @@
 #include "pipeline/Pipeline.h"
-#include "utils/triangle/Triangle.h"
 
 int main() {
     Pipeline pipeline;
