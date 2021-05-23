@@ -164,3 +164,7 @@ void Matrix::normalize() {
     }
 }
 
+Point Matrix::toPoint(const Matrix &m) {
+    return {m.matrix[0][0], m.matrix[1][0], m.matrix[2][0]};
+}
+

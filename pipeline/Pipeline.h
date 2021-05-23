@@ -10,12 +10,14 @@
 #include "../utils/command/Command.h"
 #include "view/View.h"
 #include "projection/Projection.h"
+#include "clipping/Clipping.h"
 
 class Pipeline {
 private:
     Model model;
     View view;
     Projection projection;
+    Clipping clipping;
     std::string input_file_name;
     std::ifstream input_file;
     void parse_command(const COMMAND &command);

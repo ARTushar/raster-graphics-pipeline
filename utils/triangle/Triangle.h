@@ -10,6 +10,7 @@
 
 class Triangle {
 private:
+    std::string min_line, max_line;
     static double get_x_at_y_line(const double &y, const double &x1, const double &y1, const double &x2, const double &y2);
     static bool y_intersects_line(const double &y, const double &y1, const double &y2);
     static int get_random_color();
@@ -18,7 +19,6 @@ public:
     int color[3];
     double max_y, min_y;
     double current_x_a, current_x_b, current_z_a, current_z_b, current_z_p;
-    std::string min_line, max_line;
 
     Triangle(const Point &a, const Point &b, const Point &c);
     void set_max_y();

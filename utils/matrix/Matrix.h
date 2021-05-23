@@ -31,6 +31,7 @@ public:
     static Matrix combine_vectors(const Matrix& v1, const Matrix& v2, const Matrix& v3);
     void write_to_file(std::ofstream &output);
     void normalize();
+    static Point toPoint(const Matrix& m);
 };
 
 

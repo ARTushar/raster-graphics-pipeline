@@ -26,6 +26,7 @@ Matrix Projection::apply_projection(const Matrix &m) {
     Matrix result = projection_matrix.mul(m);
     result.normalize();
     result.write_to_file(output_file);
+    return result;
 }
 
 void Projection::write_nl() {
