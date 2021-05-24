@@ -8,7 +8,7 @@
 using namespace std;
 
 Pipeline::Pipeline() {
-    input_file_name = "../test-cases/4/scene.txt";
+    input_file_name = "../test-cases/3/scene.txt";
     input_file.open(input_file_name);
     parse_view_input();
     parse_projection_input();
